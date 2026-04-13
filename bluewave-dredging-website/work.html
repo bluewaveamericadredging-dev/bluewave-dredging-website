@@ -84,6 +84,12 @@
             to { opacity: 1; transform: scale(1); }
         }
 
+        .modal-open,
+        .modal-open body {
+            overflow: hidden;
+            height: 100%;
+        }
+
         @media (max-width: 767px) {
             .card-hover:hover {
                 transform: none;
@@ -157,21 +163,21 @@
                 <!-- Project Card 1 -->
                 <div class="group bg-white border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition card-hover fade-up">
                     <div class="project-image relative overflow-hidden">
-                        <img src="images/projects/project-1.png" alt="Hudson River Remediation Project" class="w-full h-64 object-cover">
+                        <img src="images/projects/project-1.png" alt="River Remediation Project" class="w-full h-64 object-cover">
                     </div>
                     <div class="p-6">
                         <p class="text-xs text-[#00b4ff] font-semibold tracking-[0.16em] uppercase">
                             Environmental Dredging • New York
                         </p>
                         <h3 class="font-semibold text-2xl mt-3 mb-3 text-[#001f3f]">
-                            Hudson River Remediation Project
+                            River Remediation Project
                         </h3>
                         <p class="text-sm text-gray-600 leading-7">
                             Removal of contaminated sediments and restoration of critical waterways through carefully managed dredging and environmental coordination.
                         </p>
                         <button
                             class="open-project-modal text-[#00b4ff] inline-flex items-center gap-2 mt-6 text-sm font-semibold"
-                            data-title="Hudson River Remediation Project"
+                            data-title="River Remediation Project"
                             data-category="Environmental Dredging • New York"
                             data-image="images/projects/project-1.png"
                             data-summary="This project focused on the safe removal of contaminated sediments, restoration of critical waterways, and support for long-term ecological recovery through tightly controlled dredging operations."
@@ -324,37 +330,39 @@
     <div id="project-modal" class="fixed inset-0 z-[999] hidden">
         <div id="project-modal-overlay" class="absolute inset-0 bg-black/70"></div>
 
-        <div class="relative z-10 flex items-center justify-center min-h-screen px-4 py-8">
-            <div class="modal-panel w-full max-w-5xl bg-white rounded-3xl overflow-hidden shadow-2xl">
-                <div class="grid md:grid-cols-2">
+        <div class="absolute inset-0 overflow-y-auto overscroll-contain">
+            <div class="min-h-full flex items-start md:items-center justify-center px-4 py-6">
+                <div class="modal-panel w-full max-w-5xl bg-white rounded-3xl overflow-hidden shadow-2xl my-auto">
+                    <div class="grid md:grid-cols-2">
 
-                    <!-- Left: Image -->
-                    <div class="bg-gray-100">
-                        <img id="modal-image" src="" alt="Project Image" class="w-full h-full min-h-[280px] md:min-h-[520px] object-cover">
-                    </div>
-
-                    <!-- Right: Content -->
-                    <div class="p-6 sm:p-8 md:p-10 relative">
-                        <button id="close-project-modal" class="absolute top-4 right-4 text-gray-500 hover:text-black text-2xl">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-
-                        <p id="modal-category" class="text-xs text-[#00b4ff] font-semibold tracking-[0.16em] uppercase mb-3"></p>
-                        <h3 id="modal-title" class="text-3xl md:text-4xl font-bold text-[#001f3f] mb-5"></h3>
-                        <p id="modal-summary" class="text-gray-700 leading-8 text-base mb-6"></p>
-
-                        <div>
-                            <h4 class="text-lg font-semibold text-[#001f3f] mb-3">Project Highlights</h4>
-                            <div id="modal-highlights" class="text-gray-600 leading-8"></div>
+                        <!-- Left: Image -->
+                        <div class="bg-gray-100">
+                            <img id="modal-image" src="" alt="Project Image" class="w-full h-64 md:h-full md:min-h-[520px] object-cover">
                         </div>
 
-                        <div class="mt-8">
-                            <a href="contact.html" class="inline-block px-6 py-3 bg-[#001f3f] text-white rounded-full hover:bg-[#00b4ff] hover:text-[#001f3f] transition font-semibold">
-                                Discuss Similar Work
-                            </a>
-                        </div>
-                    </div>
+                        <!-- Right: Content -->
+                        <div class="p-6 sm:p-8 md:p-10 relative">
+                            <button id="close-project-modal" class="absolute top-4 right-4 text-gray-500 hover:text-black text-2xl">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
 
+                            <p id="modal-category" class="text-xs text-[#00b4ff] font-semibold tracking-[0.16em] uppercase mb-3"></p>
+                            <h3 id="modal-title" class="text-3xl md:text-4xl font-bold text-[#001f3f] mb-5"></h3>
+                            <p id="modal-summary" class="text-gray-700 leading-8 text-base mb-6"></p>
+
+                            <div>
+                                <h4 class="text-lg font-semibold text-[#001f3f] mb-3">Project Highlights</h4>
+                                <div id="modal-highlights" class="text-gray-600 leading-8"></div>
+                            </div>
+
+                            <div class="mt-8">
+                                <a href="contact.html" class="inline-block px-6 py-3 bg-[#001f3f] text-white rounded-full hover:bg-[#00b4ff] hover:text-[#001f3f] transition font-semibold">
+                                    Discuss Similar Work
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -410,11 +418,6 @@
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
 
-        function resetFilters() {
-            const selects = document.querySelectorAll('select');
-            selects.forEach(select => select.selectedIndex = 0);
-        }
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -435,24 +438,26 @@
         const modalSummary = document.getElementById('modal-summary');
         const modalHighlights = document.getElementById('modal-highlights');
 
-        document.querySelectorAll('.open-project-modal').forEach(button => {
-            button.addEventListener('click', () => {
-                modalImage.src = button.dataset.image;
-                modalImage.alt = button.dataset.title;
-                modalCategory.innerHTML = button.dataset.category;
-                modalTitle.innerHTML = button.dataset.title;
-                modalSummary.innerHTML = button.dataset.summary;
-                modalHighlights.innerHTML = button.dataset.highlights;
+        function openProjectModal(button) {
+            modalImage.src = button.dataset.image;
+            modalImage.alt = button.dataset.title;
+            modalCategory.innerHTML = button.dataset.category;
+            modalTitle.innerHTML = button.dataset.title;
+            modalSummary.innerHTML = button.dataset.summary;
+            modalHighlights.innerHTML = button.dataset.highlights;
 
-                modal.classList.remove('hidden');
-                document.body.classList.add('overflow-hidden');
-            });
-        });
+            modal.classList.remove('hidden');
+            document.documentElement.classList.add('modal-open');
+        }
 
         function closeProjectModal() {
             modal.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
+            document.documentElement.classList.remove('modal-open');
         }
+
+        document.querySelectorAll('.open-project-modal').forEach(button => {
+            button.addEventListener('click', () => openProjectModal(button));
+        });
 
         closeModalBtn.addEventListener('click', closeProjectModal);
         modalOverlay.addEventListener('click', closeProjectModal);
